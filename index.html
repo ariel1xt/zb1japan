@@ -7,95 +7,195 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         :root {
-            --color-bg: #030303;
-            --color-card: #111111;
-            --color-border: #333333;
-            --color-primary: #00d2ff; /* Whoop Light Blue */
-            --color-secondary: #3a7bd5;
-            --color-win: #ffd700;
+            --color-bg: #050505;
+            --color-card: #121212;
+            --color-primary: #00d2ff; /* Whoop Blue */
+            --color-accent: #3a7bd5;
         }
 
         body {
             background-color: var(--color-bg);
             color: #ffffff;
-            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', Meiryo, sans-serif;
+            font-family: 'Hiragino Kaku Gothic ProN', sans-serif;
             -webkit-font-smoothing: antialiased;
         }
 
-        /* Whoop-style Frosted Glass Card */
-        .whoop-card {
-            background: rgba(26, 26, 26, 0.6);
-            backdrop-filter: blur(10px);
-            border: 1px solid var(--color-border);
-            border-radius: 20px;
+        /* Whoop-style Frosted Glass */
+        .glass-card {
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(15px);
+            border: 1px solid #2a2a2a;
+            border-radius: 16px;
             transition: all 0.3s ease;
         }
 
-        .whoop-card:hover {
+        .glass-card:hover {
             border-color: var(--color-primary);
-            box-shadow: 0 0 20px rgba(0, 210, 255, 0.2);
+            box-shadow: 0 0 15px rgba(0, 210, 255, 0.1);
         }
 
-        /* Member Select styling */
-        .member-dot {
-            width: 12px; height: 12px; border-radius: 50%; border: 2px solid #555;
-            transition: all 0.2s;
-        }
-        .member-radio:checked + .member-label .member-dot {
-            background-color: var(--color-primary);
+        /* Member Selector */
+        .member-radio:checked + label {
             border-color: var(--color-primary);
-            box-shadow: 0 0 10px var(--color-primary);
+            background: rgba(0, 210, 255, 0.05);
+        }
+        .member-radio:checked + label .dot {
+            background: var(--color-primary);
+            box-shadow: 0 0 8px var(--color-primary);
         }
 
-        /* Input styling */
+        .dot {
+            width: 8px; height: 8px; border-radius: 50%; background: #444; display: inline-block; margin-right: 8px;
+        }
+
         input[type="number"] {
-            background: #222;
-            border: 1px solid #444;
+            background: #1a1a1a;
+            border: 1px solid #333;
             color: white;
-            padding: 8px;
             border-radius: 8px;
             text-align: center;
         }
 
-        /* Button styling */
-        .btn-primary {
-            background: linear-gradient(90deg, var(--color-primary), var(--color-secondary));
-            color: black;
-            font-weight: bold;
-            border-radius: 50px;
-            transition: opacity 0.2s;
+        .btn-draw {
+            background: linear-gradient(90deg, var(--color-primary), var(--color-accent));
+            color: #000;
+            font-weight: 800;
+            border-radius: 999px;
+            transition: transform 0.1s;
         }
-        .btn-primary:hover { opacity: 0.8; }
-        .btn-primary:disabled { background: #333; color: #777; cursor: not-allowed; }
+        .btn-draw:active { transform: scale(0.98); }
 
-        /* Lottery Modal */
-        .modal-overlay {
-            background: rgba(0, 0, 0, 0.85);
-            backdrop-filter: blur(8px);
-        }
+        .history-item { border-bottom: 1px solid #1a1a1a; }
     </style>
 </head>
-<body class="p-4 md:p-10">
+<body class="p-4 md:p-10 max-w-5xl mx-auto">
 
-    <header class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-extrabold tracking-tighter mb-2" style="background: linear-gradient(90deg, #00d2ff, #fff); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
-            ZEROBASEONE
-        </h1>
-        <p class="text-sm text-gray-400 tracking-widest uppercase">Japan 1st EP "PREZENT" SPECIAL LOTTERY</p>
+    <header class="text-center mb-10">
+        <h1 class="text-3xl font-black tracking-widest mb-1 italic">ZEROBASEONE</h1>
+        <p class="text-[10px] text-gray-500 tracking-[0.2em] uppercase">Japan 1st EP "PREZENT" Release Event</p>
     </header>
 
-    <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10">
+    <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
         
-        <div class="lg:col-span-2 space-y-8">
-            
-            <div class="whoop-card p-6 flex flex-col md:flex-row items-center gap-6">
-                <div class="w-32 h-32 bg-gray-800 rounded-lg flex-shrink-0 border border-gray-700 items-center justify-center flex">
-                    <span class="text-3xl">💿</span>
-                </div>
+        <div class="lg:col-span-2 space-y-6">
+            <div class="glass-card p-5 flex gap-5 items-center">
+                <div class="w-24 h-24 bg-zinc-800 rounded flex items-center justify-center text-2xl shadow-inner">ZB1</div>
                 <div>
-                    <span class="inline-block bg-blue-900 text-blue-200 text-xs px-3 py-1 rounded-full mb-2">日本デビュー記念</span>
-                    <h2 class="text-2xl font-bold mb-1">【個別サイン会】抽選権利付きCD</h2>
-                    <p class="text-sm text-gray-400 mb-4">希望メンバーを選択し、購入枚数分だけ抽選に挑戦できます。</p>
-                    <div class="text-2xl font-mono text-white">¥3,600 <span class="text-sm text-gray-500">(税込)</span></div>
+                    <span class="text-[10px] bg-blue-600 px-2 py-0.5 rounded-sm font-bold">抽選特典付き</span>
+                    <h2 class="text-lg font-bold mt-1">【個別サイン会】抽選権利付きCD</h2>
+                    <p class="text-xl font-mono mt-1">¥3,600 <span class="text-xs text-zinc-500">tax in</span></p>
                 </div>
             </div>
+
+            <div class="glass-card p-6">
+                <h3 class="text-xs font-bold text-zinc-500 mb-4 tracking-widest uppercase">01. メンバーを選択</h3>
+                <div id="member-list" class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    </div>
+            </div>
+        </div>
+
+        <div class="space-y-6">
+            <div class="glass-card p-6 sticky top-6">
+                <h3 class="text-xs font-bold text-zinc-500 mb-4 tracking-widest uppercase">02. 注文内容</h3>
+                
+                <div class="mb-6">
+                    <label class="block text-xs text-zinc-400 mb-2">購入枚数 (最大10枚)</label>
+                    <input type="number" id="qty" value="1" min="1" max="10" class="w-full py-2 text-lg font-mono" oninput="updatePrice()">
+                </div>
+
+                <div class="space-y-2 mb-6 border-t border-zinc-800 pt-4">
+                    <div class="flex justify-between text-sm">
+                        <span class="text-zinc-500">合計金额</span>
+                        <span id="total-price" class="font-mono text-cyan-400">¥3,600</span>
+                    </div>
+                </div>
+
+                <button onclick="startLottery()" class="w-full btn-draw py-4 mb-3">抽選を始める</button>
+                <p class="text-[10px] text-center text-zinc-600 leading-relaxed">
+                    ※当選後のキャンセル・変更はできません。<br>
+                    ※通信環境の良い場所で行ってください。
+                </p>
+            </div>
+        </div>
+    </div>
+
+    <div class="glass-card mt-10 p-6">
+        <h3 class="text-xs font-bold text-zinc-500 mb-4 tracking-widest uppercase">抽選履歴</h3>
+        <div id="history" class="space-y-1 text-sm">
+            <p id="empty-hint" class="text-zinc-700 text-center py-4">履歴がありません</p>
+        </div>
+    </div>
+
+    <div id="modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/90 backdrop-blur-md p-6">
+        <div class="max-w-xs w-full text-center">
+            <div id="modal-loading">
+                <div class="w-10 h-10 border-2 border-cyan-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+                <p class="text-sm tracking-widest text-zinc-400">結果を確認中...</p>
+            </div>
+            <div id="modal-result" class="hidden">
+                <h2 id="result-title" class="text-4xl font-black mb-2"></h2>
+                <p id="result-msg" class="text-zinc-400 mb-8 text-sm leading-relaxed"></p>
+                <button onclick="closeModal()" class="w-full py-3 border border-zinc-700 rounded-full text-zinc-400 text-xs tracking-widest">閉じる</button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const members = ["ソン・ハンビン", "キム・ジウン", "チャン・ハオ", "ソク・マチュ", "キム・テレ", "リッキー", "キム・ギュビン", "パク・ゴヌク", "ハン・ユジン"];
+        let selected = null;
+
+        // Init Members
+        const mList = document.getElementById('member-list');
+        members.forEach(m => {
+            const div = document.createElement('div');
+            div.innerHTML = `
+                <input type="radio" name="mem" id="${m}" class="member-radio hidden" onchange="selected='${m}'">
+                <label for="${m}" class="block glass-card p-3 text-xs cursor-pointer border-zinc-800 text-center">
+                    <span class="dot"></span>${m}
+                </label>
+            `;
+            mList.appendChild(div);
+        });
+
+        function updatePrice() {
+            const q = document.getElementById('qty').value;
+            document.getElementById('total-price').innerText = `¥${(q * 3600).toLocaleString()}`;
+        }
+
+        function startLottery() {
+            if(!selected) return alert("メンバーを選択してください");
+            
+            const modal = document.getElementById('modal');
+            const loading = document.getElementById('modal-loading');
+            const result = document.getElementById('modal-result');
+            
+            modal.classList.remove('hidden');
+            loading.classList.remove('hidden');
+            result.classList.add('hidden');
+
+            setTimeout(() => {
+                loading.classList.add('hidden');
+                result.classList.remove('hidden');
+                
+                const qty = document.getElementById('qty').value;
+                const isWin = Math.random() < (1 - Math.pow(0.85, qty)); // 模拟概率
+                
+                const title = document.getElementById('result-title');
+                const msg = document.getElementById('result-msg');
+                const hist = document.getElementById('history');
+                document.getElementById('empty-hint').classList.add('hidden');
+
+                const time = new Date().toLocaleTimeString('ja-JP', {hour:'2-digit', minute:'2-digit'});
+
+                if(isWin) {
+                    title.innerText = "当 選";
+                    title.className = "text-4xl font-black mb-2 text-cyan-400";
+                    msg.innerHTML = `おめでとうございます！<br><strong>${selected}</strong> との個別サイン会に当選しました。`;
+                    hist.insertAdjacentHTML('afterbegin', `<div class="history-item py-3 flex justify-between"><span>${time} 【当選】 ${selected}</span><span class="text-cyan-400 font-bold">WIN</span></div>`);
+                } else {
+                    title.innerText = "落 選";
+                    title.className = "text-4xl font-black mb-2 text-zinc-600";
+                    msg.innerText = "残念ながら、今回は落選となりました。";
+                    hist.insertAdjacentHTML('afterbegin', `<div class="history-item py-3 flex justify-between text-zinc-600"><span>${time} 【落選】 ${selected}</span><span>LOSE</span></div>`);
+                }
+            },
