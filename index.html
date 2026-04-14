@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ZEROBASEONE - 日本签名会抽选专用</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body { background-color: #0b0b0b; color: #ffffff; font-family: 'Segoe UI', system-ui, -apple-system, sans-serif; }
+        .zb1-card { background: #1a1a1a; border: 1px solid #333; transition: transform 0.2s; }
+        .zb1-card:hover { transform: translateY(-5px); border-color: #00d2ff; }
+        .gradient-text { background: linear-gradient(90deg, #00d2ff, #3a7bd5); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+        .modal { background: rgba(0,0,0,0.9); backdrop-filter: blur(5px); }
+    </style>
+</head>
+<body class="p-4 md:p-8">
+
+    <header class="text-center mb-10">
+        <h1 class="text-4xl font-bold gradient-text tracking-widest mb-2">ZEROBASEONE</h1>
+        <p class="text-gray-400">Japan 1st EP "PREZENT" 释放纪念特别抽选会</p>
+    </header>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+        
+        <div class="zb1-card p-6 rounded-2xl flex flex-col items-center">
+            <div class="w-full aspect-square bg-gray-800 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                 <span class="text-xs text-gray-500 text-center px-4">CD Cover / Image</span>
+            </div>
+            <h3 class="text-lg font-bold mb-1">【个别签名会】</h3>
+            <p class="text-sm text-gray-400 mb-4 text-center">1枚购入：赠送 1次 抽选权</p>
+            <span class="text-xl font-mono mb-6">¥3,600 <small class="text-xs">Tax in</small></span>
+            <button onclick="drawLottery('个别签名会')" class="w-full bg-blue-600 hover:bg-blue-500 py-3 rounded-full font-bold transition">立即抽选</button>
+        </div>
+
+        <div class="zb1-card p-6 rounded-2xl flex flex-col items-center border-blue-500/50">
+            <div class="w-full aspect-square bg-gray-800 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                <span class="text-xs text-gray-500">Event Exclusive</span>
+            </div>
+            <h3 class="text-lg font-bold mb-1">【全员告别会】</h3>
+            <p class="text-sm text-gray-400 mb-4 text-center">3枚套装：赠送 3次 抽选权</p>
+            <span class="text-xl font-mono mb-6">¥10,800 <small class="text-xs">Tax in</small></span>
+            <button onclick="drawLottery('全员告别会')" class="w-full bg-white text-black hover:bg-gray-200 py-3 rounded-full font-bold transition">立即抽选</button>
+        </div>
+
+        <div class="zb1-card p-6 rounded-2xl flex flex-col items-center">
+            <div class="w-full aspect-square bg-gray-800 rounded-lg mb-4 flex items-center justify-center overflow-hidden">
+                <span class="text-xs text-gray-500">Video Call</span>
+            </div>
+            <h3 class="text-lg font-bold mb-1">【线上通话】</h3>
+            <p class="text-sm text-gray-400 mb-4 text-center">1枚购入：赠送 1次 抽选权</p>
+            <span class="text-xl font-mono mb-6">¥3,600 <small class="text-xs">Tax in</small></span>
+            <button onclick="drawLottery('线上通话')" class="w-full bg-blue-600 hover:bg-blue-500 py-3 rounded-full font-bold transition">立即抽选</button>
+        </div>
+    </div>
+
+    <div id="lotteryModal" class="hidden fixed inset-0 modal flex items-center justify-center z-50">
+        <div class="bg-zinc-900 border border-zinc-700 p-8 rounded-3xl max-w-sm w-full text-center">
+            <h2 id="resultTitle" class="text-2xl font-bold mb-4">抽选处理中...</h2>
+            <div id="resultContent" class="text-lg mb-8 text-gray-300">请稍后</div>
+            <button onclick="closeModal()" class="w-full border border-zinc-600 py-3 rounded-full text-zinc-400 hover:text-white transition">返回</button>
+        </div>
+    </div>
+
+    <div class="max-w-xl mx-auto mt-12">
+        <h4 class="text-sm uppercase tracking-widest text-zinc-500 mb-4 text-center">历史中奖记录</h4>
+        <div id="history" class="space-y-2">
+            </div>
+    </div>
+
+    <script>
+        function drawLottery(type) {
+            const modal = document.getElementById('lotteryModal');
+            const title = document.getElementById('resultTitle');
+            const content = document.getElementById('resultContent');
+            
+            modal.classList.remove('hidden');
+            title.innerText = "抽选进行中...";
+            content.innerText = "正在向服务器请求结果...";
+
+            setTimeout(() => {
+                const isWin = Math.random() > 0.8; // 模拟20%中奖率
+                if (isWin) {
+                    title.innerText = "🎊 当选！";
+                    title.className = "text-2xl font-bold mb-4 text-yellow-400";
+                    content.innerText = `恭喜您获得了【${type}】名额！`;
+                    addHistory(type, "当选");
+                } else {
+                    title.innerText = "落选";
+                    title.className = "text-2xl font-bold mb-4 text-gray-500";
+                    content.innerText = "非常抱歉，本次未中选。";
+                    addHistory(type, "落选");
+                }
+            }, 1500);
+        }
+
+        function closeModal() {
+            document.getElementById('lotteryModal').classList.add('hidden');
+        }
+
+        function addHistory(type, status) {
+            const history = document.getElementById('history');
+            const item = document.createElement('div');
+            const color = status === "当选" ? "text-yellow-400" : "text-zinc-600";
+            item.className = "flex justify-between p-3 bg-zinc-800/50 rounded-lg text-sm";
+            item.innerHTML = `<span>${type}</span><span class="${color}">${status}</span>`;
+            history.prepend(item);
+        }
+    </script>
+</body>
+</html>
